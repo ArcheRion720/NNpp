@@ -36,13 +36,7 @@ Matrix Network::forward(Matrix input)
 	{
 		values[i + 1] = (weights[i] * values[i]) + biases[i];
 
-		for (size_t j = 0; j < values[i + 1].rows; j++)
-		{
-			for (size_t k = 0; k < values[i + 1].cols; k++)
-			{
-				values[i + 1][j][k] = sigmoid(values[i + 1][j][k]);
-			}
-		}
+		values[i + 1].callOnElements(sigmoid);
 	}
 
 	return values[layers - 1];
@@ -50,29 +44,20 @@ Matrix Network::forward(Matrix input)
 
 void Network::backPropagate(Matrix error)
 {
-	for (int i = layers - 2; i >= 0; i--)
+	for (size_t i = layers - 1; i --> 0; )
 	{
 		Matrix ds = Matrix(values[i + 1]);
-		for (size_t j = 0; j < ds.rows; j++)
-		{
-			for (size_t k = 0; k < ds.cols; k++)
-			{
-				ds[j][k] = dsigmoid(ds[j][k]);
-			}
-		}
+		ds.callOnElements(dsigmoid);
 
 		Matrix m = error ^ ds;
 
-		LWC[i] = (LWC[i] * gamma) + ((m * learningRate) * values[i].transpose());
+		LWC[i] = (LWC[i] * gamma) + ((m * learningRate) * ~values[i]);
 		LBC[i] = (LBC[i] * gamma) + (m * learningRate);
 
 		weights[i] += LWC[i];
 		biases[i] += LBC[i];
 
-		error = weights[i].transpose() * error;
-
-		m.dispose();
-		ds.dispose();
+		error = ~weights[i] * error;
 	}	
 }
 

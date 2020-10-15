@@ -5,9 +5,9 @@ class Proxy
 {
 	private:	
 		double* data;
-		int limit;
+		size_t limit;
 
 	public:
-		Proxy(double* _data, int _limit);
-		double& operator[](int index);
+		Proxy(double* _data, size_t _limit);
+		double& operator[](size_t index);
 };
