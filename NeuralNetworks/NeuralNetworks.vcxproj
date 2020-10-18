@@ -141,12 +141,14 @@
   <ItemGroup>
     <ClInclude Include="Matrix.h" />
     <ClInclude Include="Network.h" />
+    <ClInclude Include="NPPFile.h" />
     <ClInclude Include="Proxy.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Matrix.cpp" />
     <ClCompile Include="Network.cpp" />
+    <ClCompile Include="NPPFile.cpp" />
     <ClCompile Include="Proxy.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

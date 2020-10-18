@@ -1,7 +1,14 @@
 #include "Network.h"
 
-Network::Network(int* neurons, size_t _layers, double _learningRate, double _gamma) : layers(_layers), learningRate(_learningRate), gamma(_gamma)
+Network::Network()
 {
+}
+
+Network::Network(size_t* _neurons, size_t _layers, double _learningRate, double _gamma) : layers(_layers), learningRate(_learningRate), gamma(_gamma)
+{
+	neurons = new size_t[_layers];
+	memcpy(neurons, _neurons, _layers * sizeof(size_t));
+
 	weights = new Matrix[layers - 1];
 	biases  = new Matrix[layers - 1];
 	values  = new Matrix[layers];
@@ -10,12 +17,22 @@ Network::Network(int* neurons, size_t _layers, double _learningRate, double _gam
 
 	for (size_t i = 0; i < layers - 1; i++)
 	{
-		weights[i].initRandom(neurons[i + 1], neurons[i], -2.0, 2.0);
-		biases[i].initRandom(neurons[i + 1], 1, -2, 2);
+		weights[i].initRandom(_neurons[i + 1], _neurons[i], -2.0, 2.0);
+		biases[i].initRandom(_neurons[i + 1], 1, -2, 2);
 
-		LWC[i] = Matrix(neurons[i + 1], neurons[i]);
-		LBC[i] = Matrix(neurons[i + 1], 1);
+		LWC[i] = Matrix(_neurons[i + 1], _neurons[i]);
+		LBC[i] = Matrix(_neurons[i + 1], 1);
 	}
+}
+
+Network::~Network()
+{
+	//delete[] neurons;
+	//delete[] weights;
+	//delete[] biases;
+	//delete[] values;
+	//delete[] LWC;
+	//delete[] LBC;
 }
 
 double Network::sigmoid(double value)

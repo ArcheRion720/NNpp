@@ -16,6 +16,7 @@ class Matrix
 	};
 
 	friend class Matrix;
+
 	double** data;
 
 	static double randNum(double min, double max);
@@ -34,11 +35,6 @@ class Matrix
 		Matrix(size_t _rows, size_t _cols);
 		Matrix(const Matrix& other);
 
-		double& operator()(size_t index)
-		{
-
-		}
-
 		Proxy operator[](size_t index) const;
 
 		Matrix& operator=(const Matrix& matrix);
@@ -56,6 +52,19 @@ class Matrix
 		Matrix operator*(double value);
 
 		Matrix operator~();
+
+		size_t length();
+
+		void readFromArray(double* buffer)
+		{
+			for (size_t i = 0; i < rows; i++)
+			{
+				for (size_t j = 0; j < cols; j++)
+				{
+					data[i][j] = buffer[i * cols + j];
+				}
+			}
+		}
 
 		void callOnElements(callback _call);
 
