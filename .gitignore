@@ -341,3 +341,5 @@ healthchecksdb
 
 #main file
 [Mm]ain.cpp
+stb_image.h
+*.png
