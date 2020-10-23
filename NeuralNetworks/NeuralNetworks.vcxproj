@@ -141,8 +141,8 @@
   <ItemGroup>
     <ClInclude Include="Matrix.h" />
     <ClInclude Include="Network.h" />
-    <ClInclude Include="NPPFile.h" />
     <ClInclude Include="Proxy.h" />
+    <ClInclude Include="stb_image.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp" />

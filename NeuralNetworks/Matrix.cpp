@@ -1,13 +1,4 @@
 #include "Matrix.h"
-#include <time.h>
-
-double Matrix::randNum(double min, double max)
-{
-	static std::default_random_engine rng(std::random_device{}());
-	std::uniform_real_distribution<double> dist(min, max);
-
-	return dist(rng);
-}
 
 void Matrix::initEmpty(size_t _rows, size_t _cols)
 {
@@ -28,8 +19,11 @@ void Matrix::initFill(size_t _rows, size_t _cols, double value)
 	}
 }
 
-void Matrix::initRandom(size_t _rows, size_t _cols, double min, double max)
+void Matrix::random(size_t _rows, size_t _cols, double min, double max)
 {
+	static std::default_random_engine rng(std::random_device{}());
+	std::uniform_real_distribution<double> dist(min, max);
+
 	disposeData();
 	allocData(_rows, _cols);
 
@@ -38,7 +32,7 @@ void Matrix::initRandom(size_t _rows, size_t _cols, double min, double max)
 		data[i] = new double[_cols];
 		for (size_t j = 0; j < _cols; j++)
 		{
-			data[i][j] = randNum(min, max);
+			data[i][j] = dist(rng);
 		}
 	}
 }
@@ -197,6 +191,35 @@ Matrix Matrix::operator~()
 size_t Matrix::length()
 {
 	return rows * cols;
+}
+
+void Matrix::readFromArray(double* buffer)
+{
+	for (size_t i = 0; i < rows; i++)
+	{
+		for (size_t j = 0; j < cols; j++)
+		{
+			data[i][j] = buffer[i * cols + j];
+		}
+	}
+}
+
+void Matrix::readImage(unsigned char* img, int width, int height, int imgWidth, int imgHeight, int x, int y)
+{
+	disposeData();
+	initEmpty(static_cast<size_t>(width) * height, 1);
+
+	unsigned char* ptr = img + (x * width + y * height * imgHeight);
+
+	int index = 0;
+	for (int i = 0; i < height; i++)
+	{
+		for (int j = 0; j < width; j++)
+		{
+			data[index++][0] = ptr[j] / 255.0;
+		}
+		ptr += imgWidth;
+	}
 }
 
 void Matrix::callOnElements(callback _call)

@@ -15,17 +15,10 @@ class Matrix
 		}
 	};
 
-	friend class Matrix;
-
 	double** data;
-
-	static double randNum(double min, double max);
 
 	void initEmpty(size_t _rows, size_t _cols);
 	void initFill(size_t _rows, size_t _cols, double value = 0);
-
-	public:
-		void initRandom(size_t _rows, size_t _cols, double min, double max);
 
 	public:
 		size_t rows, cols;
@@ -55,19 +48,14 @@ class Matrix
 
 		size_t length();
 
-		void readFromArray(double* buffer)
-		{
-			for (size_t i = 0; i < rows; i++)
-			{
-				for (size_t j = 0; j < cols; j++)
-				{
-					data[i][j] = buffer[i * cols + j];
-				}
-			}
-		}
+		void random(size_t _rows, size_t _cols, double min, double max);
+
+		void readFromArray(double* buffer);
+		void readImage(unsigned char* img, int width, int height, int imgWidth, int imgHeight, int x, int y);
 
 		void callOnElements(callback _call);
 
+	private:
 		inline void allocData(size_t _rows, size_t _cols);
 		inline void copyData(const Matrix& matrix);
 		inline void disposeData();
